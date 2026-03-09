@@ -23,11 +23,20 @@ public class Todo {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    private boolean completed;
+    @Builder.Default
+    private boolean completed = true;
     private LocalDate deadline;
 
     @Builder.Default
     private LocalDateTime updatedAt = LocalDateTime.now();
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+    public void updateContent(String content) {
+        this.content = content;
+
+    }
 }

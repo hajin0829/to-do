@@ -1,0 +1,77 @@
+package com.example.todo.service;
+
+import com.example.todo.dto.TodoCreateRequestDTO;
+import com.example.todo.dto.TodoUpdateRequestDTO;
+import com.example.todo.entity.Todo;
+import com.example.todo.repository.TodoRepository;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+@Getter
+@RequiredArgsConstructor // final 필드로 생성자 만듦
+@Service
+public class TodoService {
+    private final TodoRepository todoRepository;
+
+    public Todo create(TodoCreateRequestDTO requestDTO) {
+        Todo todo = Todo.builder()
+                .title(requestDTO.getTitle())
+                .content(requestDTO.getContent())
+                .deadline(requestDTO.getDeadline())
+                .build();
+        return todoRepository.save(todo);
+    }
+
+    public List<Todo> findAll() {
+        return todoRepository.findAll();
+    }
+
+    public Todo findById(Long id) {
+        Optional<Todo> result = todoRepository.findById(id);
+        if (result.isEmpty()) {
+            throw new InvalidTodoException("해당 id의 todo가 없습니다.");
+        }
+        return result.get();
+    }
+
+    public Todo findByTitle(String title) {
+        Optional<Todo> result = todoRepository.findByTitle(title);
+        if (result.isEmpty()) {
+            throw new InvalidTodoException("해당 제목의 게시글이 없습니다.");
+        }
+        return result.get();
+    }
+
+    @Transactional
+    public void update(Long id, TodoUpdateRequestDTO requestDTO) {
+        Optional<Todo> result = todoRepository.findById(id);
+        if (result.isEmpty()) {
+            throw new InvalidTodoException("해당 id의 게시글이 없습니다.");
+        }
+        Todo todo = result.get();
+        if (requestDTO.getTitle() != null) {
+            todo.updateTitle(requestDTO.getTitle());
+        }
+        if (requestDTO.getContent() != null) {
+            todo.updateContent(requestDTO.getContent());
+        }
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Optional<Todo> result = todoRepository.findById(id);
+        if (result.isEmpty()) {
+            throw new InvalidTodoException("해당 id의 게시글이 없습니다.");
+        }
+        Todo todo = result.get();
+        todoRepository.delete(todo);
+
+    }
+
+
+}
