@@ -47,6 +47,14 @@ public class TodoService {
         return result.get();
     }
 
+    public Todo findByContent(String content) {
+        Optional<Todo> result = todoRepository.findByContent(content);
+        if (result.isEmpty()) {
+            throw new InvalidTodoException("해당 내용의 게시글이 없습니다.");
+        }
+        return result.get();
+    }
+
     @Transactional
     public void update(Long id, TodoUpdateRequestDTO requestDTO) {
         Optional<Todo> result = todoRepository.findById(id);
