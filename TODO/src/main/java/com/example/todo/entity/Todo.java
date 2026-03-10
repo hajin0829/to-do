@@ -25,6 +25,7 @@ public class Todo {
 
     @Builder.Default
     private boolean completed = true;
+    private LocalDate startDate;
     private LocalDate deadline;
 
     @Builder.Default
@@ -37,6 +38,9 @@ public class Todo {
     }
     public void updateContent(String content) {
         this.content = content;
-
     }
+    public void updateCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
 }
