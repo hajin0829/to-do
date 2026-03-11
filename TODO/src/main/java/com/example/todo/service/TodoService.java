@@ -1,6 +1,7 @@
 package com.example.todo.service;
 
 import com.example.todo.dto.TodoCreateRequestDTO;
+import com.example.todo.dto.TodoResponseDTO;
 import com.example.todo.dto.TodoUpdateRequestDTO;
 import com.example.todo.dto.TodoUpdateStatusDTO;
 import com.example.todo.entity.Todo;
@@ -20,6 +21,19 @@ import java.util.Optional;
 public class TodoService {
     private final TodoRepository todoRepository;
 
+    private TodoResponseDTO toResponseDTO(Todo todo) {
+        return TodoResponseDTO.builder()
+                .id(todo.getId())
+                .title(todo.getTitle())
+                .content(todo.getContent())
+                .completed(todo.isCompleted())
+                .startDate(todo.getStartDate())
+                .deadline(todo.getDeadline())
+                .createdAt(todo.getCreatedAt())
+                .build();
+    }
+
+
     public Todo create(TodoCreateRequestDTO requestDTO) {
         Todo todo = Todo.builder()
                 .title(requestDTO.getTitle())
@@ -29,7 +43,8 @@ public class TodoService {
         return todoRepository.save(todo);
     }
 
-    public List<Todo> findAll() {
+    public Todo findAll() {
+
         return todoRepository.findAll();
     }
 
@@ -42,60 +57,60 @@ public class TodoService {
     }
 
     public Todo findByTitle(String title) {
-        Optional<Todo> result = todoRepository.findByTitle(title);
+        Optional<TodoResponseDTO> result = todoRepository.findByTitle(title);
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당 제목의 todo가 없습니다.");
         }
-        return result.get();
+        return result.get().toEntity();
     }
 
     public Todo findByContent(String content) {
-        Optional<Todo> result = todoRepository.findByContent(content);
+        Optional<TodoResponseDTO> result = todoRepository.findByContent(content);
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당 내용의 todo가 없습니다.");
         }
-        return result.get();
+        return result.get().toEntity();
     }
 
     public Todo findByCompletedTrue() {
-        Optional<Todo> result = todoRepository.findByCompletedTrue();
+        Optional<TodoResponseDTO> result = todoRepository.findByCompletedTrue();
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당되는 todo가 없습니다.");
         }
-        return result.get();
+        return result.get().toEntity();
     }
 
     public Todo findByCompletedFalse() {
-        Optional<Todo> result = todoRepository.findByCompletedFalse();
+        Optional<TodoResponseDTO> result = todoRepository.findByCompletedFalse();
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당되는 todo가 없습니다.");
         }
-        return result.get();
+        return result.get().toEntity();
     }
 
 
     public Todo findByDeadlineBefore(LocalDate deadline) {
-        Optional<Todo> result = todoRepository.findByDeadlineBefore(deadline);
+        Optional<TodoResponseDTO> result = todoRepository.findByDeadlineBefore(deadline);
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당 기간의 todo가 없습니다.");
         }
-        return result.get();
+        return result.get().toEntity();
     }
 
     public Todo findByDeadlineAfter(LocalDate deadline) {
-        Optional<Todo> result = todoRepository.findByDeadlineAfter(deadline);
+        Optional<TodoResponseDTO> result = todoRepository.findByDeadlineAfter(deadline);
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당 기간의 todo가 없습니다.");
         }
-        return result.get();
+        return result.get().toEntity();
     }
 
     public Todo findByDeadlineBetween(LocalDate startDate, LocalDate deadline) {
-        Optional<Todo> result = todoRepository.findByDeadlineBetween(startDate, deadline);
+        Optional<TodoResponseDTO> result = todoRepository.findByDeadlineBetween(startDate, deadline);
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당 기간의 todo가 없습니다.");
         }
-        return result.get();
+        return result.get().toEntity();
     }
 
     @Transactional
