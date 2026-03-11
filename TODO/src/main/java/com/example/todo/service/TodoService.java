@@ -43,76 +43,76 @@ public class TodoService {
         return todoRepository.save(todo);
     }
 
-    public Todo findAll() {
 
-        return todoRepository.findAll();
+    public List<TodoResponseDTO> findAll() {
+        return todoRepository.findAll().stream()
+                .map(TodoResponseDTO::new)
+                .toList();
     }
 
-    public Todo findById(Long id) {
+    public TodoResponseDTO findById(Long id) {
         Optional<Todo> result = todoRepository.findById(id);
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당 id의 todo가 없습니다.");
         }
-        return result.get();
+        return new TodoResponseDTO(result.get());
     }
 
-    public Todo findByTitle(String title) {
+    public TodoResponseDTO findByTitle(String title) {
         Optional<TodoResponseDTO> result = todoRepository.findByTitle(title);
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당 제목의 todo가 없습니다.");
         }
-        return result.get().toEntity();
+        return result.get();
     }
 
-    public Todo findByContent(String content) {
+    public TodoResponseDTO findByContent(String content) {
         Optional<TodoResponseDTO> result = todoRepository.findByContent(content);
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당 내용의 todo가 없습니다.");
         }
-        return result.get().toEntity();
+        return result.get();
     }
 
-    public Todo findByCompletedTrue() {
+    public TodoResponseDTO findByCompletedTrue() {
         Optional<TodoResponseDTO> result = todoRepository.findByCompletedTrue();
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당되는 todo가 없습니다.");
         }
-        return result.get().toEntity();
+        return result.get();
     }
 
-    public Todo findByCompletedFalse() {
+    public TodoResponseDTO findByCompletedFalse() {
         Optional<TodoResponseDTO> result = todoRepository.findByCompletedFalse();
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당되는 todo가 없습니다.");
         }
-        return result.get().toEntity();
+        return result.get();
     }
 
-
-    public Todo findByDeadlineBefore(LocalDate deadline) {
+    public TodoResponseDTO findByDeadlineBefore(LocalDate deadline) {
         Optional<TodoResponseDTO> result = todoRepository.findByDeadlineBefore(deadline);
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당 기간의 todo가 없습니다.");
         }
-        return result.get().toEntity();
+        return result.get();
     }
 
-    public Todo findByDeadlineAfter(LocalDate deadline) {
+    public TodoResponseDTO findByDeadlineAfter(LocalDate deadline) {
         Optional<TodoResponseDTO> result = todoRepository.findByDeadlineAfter(deadline);
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당 기간의 todo가 없습니다.");
         }
-        return result.get().toEntity();
+        return result.get();
     }
 
-    public Todo findByDeadlineBetween(LocalDate startDate, LocalDate deadline) {
+    public TodoResponseDTO findByDeadlineBetween(LocalDate startDate, LocalDate deadline) {
         Optional<TodoResponseDTO> result = todoRepository.findByDeadlineBetween(startDate, deadline);
         if (result.isEmpty()) {
             throw new InvalidTodoException("해당 기간의 todo가 없습니다.");
         }
-        return result.get().toEntity();
+        return result.get();
     }
-
     @Transactional
     public void update(Long id, TodoUpdateRequestDTO requestDTO) {
         Optional<Todo> result = todoRepository.findById(id);

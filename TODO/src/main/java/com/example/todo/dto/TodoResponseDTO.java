@@ -22,15 +22,34 @@ public class TodoResponseDTO {
     private LocalDate deadline;
     private LocalDateTime createdAt;
 
-    public Todo toEntity() {
-        return Todo.builder()
-                .id(id)
-                .title(title)
-                .content(content)
-                .completed(completed)
-                .startDate(startDate)
-                .deadline(deadline)
-                .createdAt(createdAt)
-                .build();
+    public TodoResponseDTO(Todo todo) {
+        this.id = todo.getId();
+        this.title = todo.getTitle();
+        this.content = todo.getContent();
+        this.completed = todo.isCompleted();
+        this.deadline = todo.getDeadline();
+        this.createdAt = todo.getCreatedAt();
     }
+
+//    public Todo toEntity() {
+//        return Todo.builder()
+//                .id(id)
+//                .title(title)
+//                .content(content)
+//                .completed(completed)
+//                .startDate(startDate)
+//                .deadline(deadline)
+//                .createdAt(createdAt)
+//                .build();
+//    }
+
+//public static TodoResponseDTO fromEntity(Todo todo) {
+//return TodoResponseDTO.builder()
+//        .id(todo.getId())
+//        .title(todo.getTitle())
+//        .content(todo.getContent())
+//        .deadline(todo.getDeadline())
+//        .createdAt(todo.getCreatedAt())
+//        .build();
+//}
 }

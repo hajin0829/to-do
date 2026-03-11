@@ -29,42 +29,42 @@ public class TodoController {
     }
 
     @GetMapping("/todo/id/{id}")
-    public Todo findById(@PathVariable Long id) {
+    public TodoResponseDTO findById(@PathVariable Long id) {
         return todoService.findById(id);
     }
 
     @GetMapping("/todo/title/{title}")
-    public Todo findByTitle(@PathVariable String title) {
+    public TodoResponseDTO findByTitle(@PathVariable String title) {
         return todoService.findByTitle(title);
     }
 
     @GetMapping("/todo/content/{content}")
-    public Todo findByContent(@PathVariable String content) {
+    public TodoResponseDTO findByContent(@PathVariable String content) {
         return todoService.findByContent(content);
     }
 
-    @GetMapping("/todo/completed/{completed}")
-    public Todo findByCompletedTrue() {
+    @GetMapping("/todo/completed/true")
+    public TodoResponseDTO findByCompletedTrue() {
         return todoService.findByCompletedTrue();
     }
 
-    @GetMapping("/todo/completed/{completed}")
-    public Todo findByCompletedFalse() {
+    @GetMapping("/todo/completed/false")
+    public TodoResponseDTO findByCompletedFalse() {
         return todoService.findByCompletedFalse();
     }
 
     @GetMapping("/todo/deadline/before/{deadline}")
-    public Todo findByDeadlineBefore(@PathVariable LocalDate deadline) {
+    public TodoResponseDTO findByDeadlineBefore(@PathVariable LocalDate deadline) {
         return todoService.findByDeadlineBefore(deadline);
     }
 
     @GetMapping("/todo/deadline/after/{deadline}")
-    public Todo findByDeadlineAfter(@PathVariable LocalDate deadline) {
+    public TodoResponseDTO findByDeadlineAfter(@PathVariable LocalDate deadline) {
         return todoService.findByDeadlineAfter(deadline);
     }
 
-    @GetMapping("/todo/deadline/between/{deadline}")
-    public Todo findByDeadlineBetween(@PathVariable LocalDate startDate, LocalDate deadline) {
+    @GetMapping("/todo/deadline/{startDate}/{deadline}")
+    public TodoResponseDTO findByDeadlineBetween(@PathVariable LocalDate startDate, LocalDate deadline) {
         return todoService.findByDeadlineBetween(startDate, deadline);
     }
 
