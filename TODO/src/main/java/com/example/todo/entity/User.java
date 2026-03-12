@@ -25,6 +25,16 @@ public class User {
     @Builder.Default
     private LocalDate userCreatedAt = LocalDate.now();
 
+    public void updateName(String name) {
+        this.name = name;
+    }
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
 
 
 }

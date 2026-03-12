@@ -21,7 +21,7 @@ import java.util.Optional;
 public class TodoService {
     private final TodoRepository todoRepository;
 
-    private TodoResponseDTO toResponseDTO(Todo todo) {
+    private TodoResponseDTO todoResponseDTO(Todo todo) {
         return TodoResponseDTO.builder()
                 .id(todo.getId())
                 .title(todo.getTitle())
